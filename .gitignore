@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+# 生成物
+output/
+# Secret（絶対にコミットしない）
+*.secret
+.env.local
+.env
