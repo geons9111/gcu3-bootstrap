@@ -1,0 +1,88 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Azure: Verify offline configuration",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/verify.sh",
+      "args": ["--offline"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Set up Docker context",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/setup_context.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Prepare dedicated storage",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/prepare_remote.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Verify remote environment",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/verify.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Sync source",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/sync_source.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Builder status",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/compose.sh",
+      "args": ["status"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Start builder",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/compose.sh",
+      "args": ["start"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Builder shell",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/compose.sh",
+      "args": ["shell"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Builder logs",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/compose.sh",
+      "args": ["logs", "200"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Stop builder",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/compose.sh",
+      "args": ["stop"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Download requested artifact",
+      "type": "shell",
+      "command": "${workspaceFolder}/azure/download_artifacts.sh",
+      "args": ["${input:artifactPath}"],
+      "dependsOn": "Azure: Stop builder",
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "artifactPath",
+      "type": "promptString",
+      "description": "Relative path under /opt/data/gcu3-platform/artifacts",
+      "default": "build-id/image.wic.zst"
+    }
+  ]
+}

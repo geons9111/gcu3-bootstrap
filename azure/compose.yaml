@@ -1,0 +1,54 @@
+name: gcu3-platform
+
+services:
+  builder:
+    image: "${GCU3_YOCTO_IMAGE:?Set GCU3_YOCTO_IMAGE to a pinned builder image}"
+    user: "${GCU3_UID:-1000}:${GCU3_GID:-1000}"
+    working_dir: /workspace
+    init: true
+    stdin_open: true
+    tty: true
+    command: ["bash", "-lc", "trap 'exit 0' TERM INT; sleep infinity & wait"]
+    restart: "no"
+    privileged: false
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    cpus: "${GCU3_CONTAINER_CPUS:-2}"
+    mem_limit: "${GCU3_CONTAINER_MEMORY:-6g}"
+    environment:
+      HOME: /build/home
+      DL_DIR: /downloads
+      SSTATE_DIR: /sstate-cache
+      BUILDDIR: /build
+      GCU3_ARTIFACTS_DIR: /artifacts
+      BB_NUMBER_THREADS: "${GCU3_BB_NUMBER_THREADS:-2}"
+      PARALLEL_MAKE: "${GCU3_PARALLEL_MAKE:--j 2}"
+      BB_ENV_PASSTHROUGH_ADDITIONS: "DL_DIR SSTATE_DIR BUILDDIR GCU3_ARTIFACTS_DIR BB_NUMBER_THREADS PARALLEL_MAKE"
+    volumes:
+      - type: bind
+        source: "${GCU3_REMOTE_ROOT:-/opt/data/gcu3-platform}/src"
+        target: /workspace
+        bind:
+          create_host_path: false
+      - type: bind
+        source: "${GCU3_REMOTE_ROOT:-/opt/data/gcu3-platform}/downloads"
+        target: /downloads
+        bind:
+          create_host_path: false
+      - type: bind
+        source: "${GCU3_REMOTE_ROOT:-/opt/data/gcu3-platform}/sstate-cache"
+        target: /sstate-cache
+        bind:
+          create_host_path: false
+      - type: bind
+        source: "${GCU3_REMOTE_ROOT:-/opt/data/gcu3-platform}/build"
+        target: /build
+        bind:
+          create_host_path: false
+      - type: bind
+        source: "${GCU3_REMOTE_ROOT:-/opt/data/gcu3-platform}/artifacts"
+        target: /artifacts
+        bind:
+          create_host_path: false

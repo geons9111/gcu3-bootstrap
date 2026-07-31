@@ -8,3 +8,16 @@ output/
 *.secret
 .env.local
 .env
+
+# Azure remote workflow: local configuration, credentials and generated data
+azure/.env
+*.pem
+*.key
+*.ppk
+.ssh/
+artifacts/
+gcu3-platform-artifacts/
+azure/src/
+azure/build/
+azure/downloads/
+azure/sstate-cache/
