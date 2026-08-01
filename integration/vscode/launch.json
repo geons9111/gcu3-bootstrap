@@ -1,0 +1,6 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    { "name": "Python: orc CLI", "type": "debugpy", "request": "launch", "module": "orchestrator.cli", "console": "integratedTerminal", "justMyCode": true }
+  ]
+}
