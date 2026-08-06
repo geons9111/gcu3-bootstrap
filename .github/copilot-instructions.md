@@ -10,3 +10,9 @@
 - Use a pinned prebuilt image through `GCU3_YOCTO_IMAGE`. Never put registry credentials, proxy credentials, tokens, or SSH keys in repository files or image layers.
 - Start builds only after an explicit user request. Retrieve only specifically requested artifacts with `azure/download_artifacts.sh` and bounded log summaries with `azure/compose.sh logs`.
 - The current 2-vCPU/8-GB VM and approximately 121 GB free space are below routine Yocto targets. Treat compute resize and free-space review as capacity prerequisites, not reasons to move builds local.
+<!-- mermaid-ai-skills:start -->
+## Mermaid Diagrams
+
+When the user asks to create, edit, or visualize a diagram, follow the
+instructions in `.github/instructions/mermaid.instructions.md`.
+<!-- mermaid-ai-skills:end -->
