@@ -5,6 +5,11 @@
 > **作成**：2026-07-27 / Osaka
 > **前提**：WSL2 Ubuntu 24.04（ユーザー例: gcu3pf）で bootstrap 実行済み
 
+> **現在の推奨構成**：編集と軽量チェックは WSL2、Yocto は明示的な
+> `gcu3-platform-azure` Docker context 経由で既存 Azure VM 上に分離します。
+> ローカル Docker の `default` context は変更しません。手順は
+> [`docs/AZURE_REMOTE_YOCTO.md`](docs/AZURE_REMOTE_YOCTO.md) を参照してください。
+
 ---
 
 ## 0. 全体のどこにいるか
@@ -38,7 +43,7 @@ newgrp docker
 ### 1-2. デーモン疎通（sudoなしで通ること）
 
 ```
-docker ps
+docker --context default ps
 ```
 
 期待：エラーなく空 or 一覧が表示される（`permission denied` が出ない）。
@@ -46,7 +51,7 @@ docker ps
 ### 1-3. hello-world 疎通
 
 ```
-docker run --rm hello-world
+docker --context default run --rm hello-world
 ```
 
 期待：`Hello from Docker!` が表示される。
@@ -54,7 +59,7 @@ docker run --rm hello-world
 ### 1-4. Compose / Buildx
 
 ```
-docker compose version
+docker --context default compose version
 ```
 
 ```
@@ -193,10 +198,15 @@ orc --help
 8. `cli.py`（build→package→validate→tvp 配線・終了コード）
 9. `tests/`（UT/IT：詳細設計 §19）
 
-#### STEP D：最初の疎通（ダミーBuildでE2E）
+#### STEP D：最初の疎通（Azure builderで明示実行）
 
-```
-orc build --target a55,m7,m33 --profile office-osaka
+ローカル WSL ではフル Yocto ビルドを実行しません。`gcu3-platform` の source を同期し、
+Azure builder を起動してから、対象リポジトリの手順に従って明示的に実行します。
+
+```bash
+./azure/sync_source.sh
+./azure/compose.sh start
+./azure/compose.sh shell
 ```
 
 ```

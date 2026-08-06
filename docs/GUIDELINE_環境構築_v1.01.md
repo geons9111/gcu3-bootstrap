@@ -149,7 +149,7 @@ export SECRET_PROXY_URL="http://proxy.kubota.local:8080"
 # 一括構築（大阪・必須のみ）
 ./linux/00_bootstrap.sh --profile office-osaka
 
-# フル（Yocto/Embedded/Optionalも）
+# フル（ローカルYoctoホスト依存は任意・通常はAzure remote workflowを使用）
 ./linux/00_bootstrap.sh --profile office-osaka \
   --enable-yocto --enable-embedded-tools --enable-optional-tools
 
@@ -170,9 +170,9 @@ git --version
 
 ## 7. Yocto（A55）を行う場合の注意
 
-- `--enable-yocto` で 08 が動作（chrpath/cpio/diffstat/gawk/python3-git 等を導入）。
-- **リソース**：空きディスク140GB以上、RAM32GB級、多コア推奨 → `02_configure_wslconfig.ps1 -Profile yocto`。
-- **配置**：`/home/$USER/work/...`（`/mnt/c` は性能劣化のため非推奨）。
+- **通常運用**：ローカル WSL は編集・軽量チェックに限定し、[`AZURE_REMOTE_YOCTO.md`](AZURE_REMOTE_YOCTO.md) の remote workflow を使用します。
+- `--enable-yocto` は十分な専用ローカル資源がある場合の任意・従来互換です。リソース制約のある Windows PC では指定しません。
+- 任意のローカル運用では空きディスク140GB以上、RAM32GB級、多コアが必要で、配置は `/home/$USER/work/...` とします。
 - ベンダーSDK（i.MX BSP等）は手順に従い別途取得。
 
 ---
@@ -215,6 +215,6 @@ python3 -m venv .venv && source .venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 pip install -e .
 orc --help
-orc build --target a55,m7,m33 --profile office-osaka
+# フルYoctoビルドは docs/AZURE_REMOTE_YOCTO.md に従いAzure builderで明示実行
 ```
 - 詳細は `05_Phase1_詳細設計_v1.00.md` / `06_実装ガイドライン_v1.00.md` を参照。

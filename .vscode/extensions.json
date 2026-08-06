@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-vscode-remote.remote-wsl",
+    "github.copilot",
+    "github.copilot-chat",
+    "ms-azuretools.vscode-docker",
+    "redhat.vscode-yaml",
+    "timonwong.shellcheck"
+  ]
+}

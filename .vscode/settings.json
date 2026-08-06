@@ -1,0 +1,12 @@
+{
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "docker.context": "default",
+  "shellcheck.enable": true,
+  "shellcheck.run": "onSave",
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": "azure/compose.yaml"
+  },
+  "files.associations": {
+    "azure/.env.example": "dotenv"
+  }
+}

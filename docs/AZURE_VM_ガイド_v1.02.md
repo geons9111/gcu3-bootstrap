@@ -4,6 +4,11 @@
 > **前提**：bootstrap v1.02（`--target native|wsl|auto` 対応）
 > **status**：FINAL v1.02 / 2026.07 / Osaka
 
+> **共有済み Azure Docker VM への現在の推奨**：VMへ bootstrap を直接再適用せず、
+> [`AZURE_REMOTE_YOCTO.md`](AZURE_REMOTE_YOCTO.md) の SSH Docker context と専用
+> `/opt/data/gcu3-platform` bind mount を使用します。以下の native 手順は、新規の専用VMを
+> 構築する場合の任意・従来互換です。
+
 ---
 
 ## 0. 2つのパターン
@@ -28,7 +33,7 @@ flowchart TB
 
 ---
 
-## 1. パターン②：Ubuntu VM 直接（推奨・CI/Build）
+## 1. パターン②：Ubuntu VM 直接（新規専用VM向け・任意）
 
 ### 1.1 事前準備
 - Azure Portal / CLI で **Ubuntu 24.04 LTS** のVMを作成
